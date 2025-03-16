@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color:rgb(1, 1, 66);
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            width: 90%;
+            max-width: 900px;
+        }
+        .sidebar {
+            width: 45%;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            word-wrap: nowrap;
+            color: aliceblue;
+        }
+        .sidebar p{
+            color: aliceblue;
+            font-size: 1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 400px;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .mole {
+            background-color: #ed0144;
+            color: white;
+        }
+        .btns{
+            display: flex;
+            margin-top: 20px;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+
+        }
+        button{
+            background-color: aliceblue;
+            color: rgb(5, 5, 55);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 15px;
+
+        }
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .grid {
+                width: 300px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .box {
+                width: 80px;
+                height: 80px;
+            }
+        
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h1>Whack-a-Mole</h1>
+            <p>Score: <span id="score">0</span></p>
+            <p>Time: <span id="timer">45</span></p>
+            <div class="btns">
+            <button id="start">START!</button>
+            <button id="reset">RESET!</button>
+        </div>
+        </div>
+        <div class="grid" id="grid">
+            
+        </div>
+    </div>
+
+    <script>
+        const GRID=document.getElementById('grid');
+        for(let i=0;i<12;i++){
+            const inbox=document.createElement('div');
+            inbox.classList.add('box',`box${i}`);
+            inbox.setAttribute('id',`${i}`);
+            GRID.appendChild(inbox);
+        }
+
+        const boxes=document.querySelectorAll('.box');
+        const timer=document.querySelector('#timer');
+        const score=document.querySelector('#score');
+
+        let hitpos;
+        let res=0;
+
+        document.getElementById('reset').addEventListener('click',()=>{
+                location.reload();
+            })
+
+        document.getElementById('start').addEventListener('click',()=>{
+            function randomsq(){
+            boxes.forEach(sq => {
+                sq.classList.remove('mole');
+            });
+
+            const randsq=boxes[Math.floor(Math.random()*12)];
+            randsq.classList.add('mole');
+            hitpos=randsq.id;
+        }
+
+        boxes.forEach(sq=>{
+            sq.addEventListener('click',()=>{
+                if(sq.id==hitpos){
+                    res++;
+                    hitpos=null;
+                    score.innerHTML=res;
+                }
+            })
+        })
+        function movemole(){
+            let timerid=null;
+            timerid=setInterval(randomsq,1000);
+        }
+        movemole();
+
+        let c=45;
+
+        function countdown(){
+             c--;
+            timer.textContent=c;
+            
+            if(c==0){
+                clearInterval(counter);
+                alert(`GAME OVER !.. YOUR FINAL SCORE IS ${res}`);
+                location.reload();
+            }
+        }
+            counter=setInterval(countdown,1000);
+        })
+
+        
+    </script>
+    
+</body>
+</html>

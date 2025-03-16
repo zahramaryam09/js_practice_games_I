@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        html {
+            --s: 100px; /* control the size*/
+            --c1: #5ba7ad;
+            --c2: #a56e5d;
+            
+            --_g: var(--c1) 0 25%,#0000 0 50%;
+            background:
+            repeating-conic-gradient(at 33% 33%,var(--_g)),
+            repeating-conic-gradient(at 66% 66%,var(--_g)),
+            var(--c2); 
+            background-size: var(--s) var(--s); 
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+           
+        }
+       
+
+        .main {
+            width: 400px;
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .heading {
+            font-size: 2rem;
+            font-weight: bold;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ddd;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+        }
+
+        .options button {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #rock { background-color: #ffab4c; color: white; }
+        #paper { background-color: #bf6fc7; color: white; }
+        #scissors{ background-color: #7eabcf; color: white; }
+
+        .options button:hover {
+            transform: scale(1.1);
+        }
+
+        .choices {
+            font-size: 1.2rem;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .choices h2 {
+            font-size: 1rem;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        #result {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+       span{
+        color: #eb6841;
+       }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="heading">
+            Rock-Paper-Scissors
+        </div>
+        <div class="options">
+            <button id="rock">R</button>
+            <button id="paper">P</button>
+            <button id="scissors">S</button>
+        </div>
+        <div class="choices">
+            <h2>Computer choice: <span id="comp_ch"></span></h2>
+            <h2>Your Choice: <span id="your_ch"></span></h2>
+            <h2>Resultss:<span id="result"></span></h2>
+        </div>
+    </div>
+    <script>
+        const comp_ch=document.getElementById('comp_ch');
+        const user_ch=document.getElementById('your_ch');
+        const result=document.getElementById('result');
+        const rock=document.getElementById('rock');
+        const ppr=document.getElementById('paper');
+        const scr=document.getElementById('scissors');
+        let userCh;
+        let compch;
+        let compchoses;
+
+        const possible_ch=document.querySelectorAll('button');
+        possible_ch.forEach(possCh=> possCh.addEventListener('click',(e)=>{
+            userCh= e.target.id;
+            user_ch.innerHTML=userCh;
+            compch=generateCompChoice();
+            comp_ch.innerHTML=compch;
+            let res=getresult(userCh,compch);
+            result.innerHTML=res;
+        }))
+
+        function generateCompChoice(){
+            compch=Math.random();
+            if(compch>=0 && compch<0.33){
+                compchoses='rock';
+            }
+            else if(compch>=0.33 && compch<0.67){
+                compchoses='paper';
+            }
+            else if(compch>=0.67 && compch<1){
+                compchoses='scissors';
+            }
+            return compchoses;
+        }
+
+        function getresult(u,c){
+            if(u=='scissors'&& c=='paper' || u=='paper' && c=='rock' || u=='rock' && c=='scissors'){
+                return 'you win!';
+            }
+            else if(c=='scissors'&& u=='paper' || c=='paper' && u=='rock' || c=='rock' && u=='scissors'){
+                return 'you lose!';
+            }
+            else 
+            return 'its a tie!';
+        }
+
+    </script>
+</body>
+</html>
